@@ -1,6 +1,8 @@
 package ru.alexandermalikov.testmvp.web;
 
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
+
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -36,16 +38,19 @@ public class ApiClient {
     }
 
 
+    @RxLogObservable
     public Observable<List<Person>> getPersonList() {
         return mApi.getPersonList().subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @RxLogObservable
     public Observable<StandardResponse> addPerson(Person person) {
         return mApi.addPerson(person).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @RxLogObservable
     public Observable<StandardResponse> deletePerson(Person person) {
         return mApi.deletePerson(person).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
