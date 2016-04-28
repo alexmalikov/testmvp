@@ -1,4 +1,4 @@
-package ru.alexandermalikov.testmvp;
+package ru.alexandermalikov.testmvp.web.data;
 
 
 public class Person {

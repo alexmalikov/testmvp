@@ -1,4 +1,4 @@
-package ru.alexandermalikov.testmvp;
+package ru.alexandermalikov.testmvp.web;
 
 
 import java.util.List;
@@ -8,6 +8,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.alexandermalikov.testmvp.web.data.Person;
+import ru.alexandermalikov.testmvp.web.data.StandardResponse;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
