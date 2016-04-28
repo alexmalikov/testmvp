@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAGG : " + MainActivity.class.getSimpleName();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

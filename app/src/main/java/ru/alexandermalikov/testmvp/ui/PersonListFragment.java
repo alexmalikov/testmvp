@@ -11,7 +11,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ru.alexandermalikov.testmvp.R;
+import ru.alexandermalikov.testmvp.TestMvpApplication;
 import ru.alexandermalikov.testmvp.web.ApiClient;
 import ru.alexandermalikov.testmvp.web.data.Person;
 import rx.Subscriber;
@@ -21,7 +24,7 @@ public class PersonListFragment extends Fragment {
 
     private static final String TAG = "TAGG : " + MainActivity.class.getSimpleName();
 
-    private ApiClient mApiClient;
+    @Inject ApiClient mApiClient;
 
 
     public PersonListFragment() {
@@ -35,7 +38,7 @@ public class PersonListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApiClient = new ApiClient();
+        ((TestMvpApplication) getActivity().getApplication()).getWebComponent().inject(this);
     }
 
     @Override
@@ -56,6 +59,7 @@ public class PersonListFragment extends Fragment {
     private MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }
+
 
     private void loadPersons() {
         mApiClient.getPersonList().subscribe(new Subscriber<List<Person>>() {
