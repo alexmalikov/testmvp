@@ -1,7 +1,7 @@
 package ru.alexandermalikov.testmvp.ui;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import ru.alexandermalikov.testmvp.R;
 import ru.alexandermalikov.testmvp.TestMvpApplication;
 import ru.alexandermalikov.testmvp.web.ApiClient;
+import ru.alexandermalikov.testmvp.web.data.Person;
 
 public class PersonInfoFragment extends Fragment {
 
@@ -20,7 +21,7 @@ public class PersonInfoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static PersonInfoFragment newInstance() {
+    public static PersonInfoFragment newInstance(Person person) {
         return new PersonInfoFragment();
     }
 

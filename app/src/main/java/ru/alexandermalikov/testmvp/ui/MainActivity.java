@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import ru.alexandermalikov.testmvp.R;
+import ru.alexandermalikov.testmvp.web.data.Person;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         addFragment(AddPersonFragment.newInstance(), true);
     }
 
-    void showDeletePerson() {
-        addFragment(PersonInfoFragment.newInstance(), true);
+    void showPersonInfo(Person person) {
+        addFragment(PersonInfoFragment.newInstance(person), true);
     }
 
 
