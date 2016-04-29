@@ -3,7 +3,6 @@ package ru.alexandermalikov.testmvp.ui;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +13,17 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import ru.alexandermalikov.testmvp.R;
-import ru.alexandermalikov.testmvp.TestMvpApplication;
-import ru.alexandermalikov.testmvp.web.ApiClient;
+import ru.alexandermalikov.testmvp.ui.presenters.PersonListPresenter;
+import ru.alexandermalikov.testmvp.ui.views.PersonListView;
 import ru.alexandermalikov.testmvp.web.data.Person;
-import rx.Subscriber;
 
 
-public class PersonListFragment extends Fragment {
+public class PersonListFragment extends Fragment implements PersonListView {
 
     private static final String TAG = "TAGG : " + MainActivity.class.getSimpleName();
 
-    @Inject ApiClient mApiClient;
+    private PersonListPresenter mPresenter;
 
     private ListView mLvPersons;
     private PersonAdapter mPersonAdapter;
@@ -47,7 +43,7 @@ public class PersonListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        ((TestMvpApplication) getActivity().getApplication()).getWebComponent().inject(this);
+        mPresenter = new PersonListPresenter(getActivity(), this);
     }
 
     @Override
@@ -66,7 +62,7 @@ public class PersonListFragment extends Fragment {
         mLvPersons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                getMainActivity().showPersonInfo(mPersonAdapter.getPerson(position));
             }
         });
         mPbPersons = (ProgressBar) rootView.findViewById(R.id.pb_persons);
@@ -81,35 +77,29 @@ public class PersonListFragment extends Fragment {
 
 
     private void loadPersons() {
-        showProgress(true);
-        mApiClient.getPersonList().subscribe(new Subscriber<List<Person>>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "onCompleted()");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "onError(): " + e.getMessage());
-                showProgress(false);
-                Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNext(List<Person> personList) {
-                showProgress(false);
-                showLoadedPersons(personList);
-            }
-        });
+        mPresenter.loadPersons();
     }
 
 
-    private void showLoadedPersons(List<Person> personList) {
-        mPersonAdapter.setPersonList(personList);
-    }
-
-    private void showProgress(boolean show) {
+    @Override
+    public void showProgress(boolean show) {
         mPbPersons.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
+    @Override
+    public void setPersonList(List<Person> personList) {
+        mPersonAdapter.setPersonList(personList);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        mPresenter.onDestroy();
+        super.onDestroy();
+    }
 }
