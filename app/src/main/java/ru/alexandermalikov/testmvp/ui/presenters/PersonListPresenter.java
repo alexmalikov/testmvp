@@ -14,6 +14,11 @@ import ru.alexandermalikov.testmvp.web.ApiClient;
 import ru.alexandermalikov.testmvp.web.data.Person;
 import rx.Subscriber;
 
+
+// TODO 1. RxLifecycle / CompositeSubscription
+// TODO 2. Extract same logic to BaseFragment
+// TODO 3. Add gender selection
+
 public class PersonListPresenter {
 
     private static final String TAG = "TAGG : " + PersonListPresenter.class.getSimpleName();
@@ -42,17 +47,30 @@ public class PersonListPresenter {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError(): " + e.getMessage());
-                mView.showProgress(false);
-                mView.showMessage("Error: " + e.getMessage());
+                onLoadError(e);
             }
 
             @Override
             public void onNext(List<Person> personList) {
-                mView.showProgress(false);
-                mView.setPersonList(personList);
+                onLoadFinished(personList);
             }
         });
+    }
+
+
+    private void onLoadError(Throwable e) {
+        Log.e(TAG, "onError(): " + e.getMessage());
+        if (mView != null) {
+            mView.showProgress(false);
+            mView.showMessage("Error: " + e.getMessage());
+        }
+    }
+
+    private void onLoadFinished(List<Person> personList) {
+        if (mView != null) {
+            mView.showProgress(false);
+            mView.setPersonList(personList);
+        }
     }
 
 }

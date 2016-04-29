@@ -37,6 +37,7 @@ public class AddPersonFragment extends Fragment implements AddPersonView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         mPresenter = new AddPersonPresenter(getActivity(), this);
     }
 
@@ -73,5 +74,12 @@ public class AddPersonFragment extends Fragment implements AddPersonView {
     @Override
     public void finish() {
         getActivity().onBackPressed();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        mPresenter.onDestroy();
+        super.onDestroy();
     }
 }

@@ -33,7 +33,7 @@ public class AddPersonPresenter {
         mView = null;
     }
 
-    // TODO: add gender
+
     public void addNewPerson(@NonNull String name, @NonNull String age, @NonNull String profession) {
         Person person = createPerson(name, age, profession);
         if (person == null) {
@@ -74,9 +74,7 @@ public class AddPersonPresenter {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError(): " + e.getMessage());
-                mView.showProgress(false);
-                mView.showMessage("Error: " + e.getMessage());
+                onUploadError(e);
             }
 
             @Override
@@ -87,7 +85,18 @@ public class AddPersonPresenter {
     }
 
 
+    private void onUploadError(Throwable e) {
+        Log.e(TAG, "onError(): " + e.getMessage());
+        if (mView != null) {
+            mView.showProgress(false);
+            mView.showMessage("Error: " + e.getMessage());
+        }
+    }
+
     private void onUploadFinished(boolean success) {
+        if (mView == null) {
+            return;
+        }
         mView.showProgress(false);
         if (success) {
             mView.finish();
