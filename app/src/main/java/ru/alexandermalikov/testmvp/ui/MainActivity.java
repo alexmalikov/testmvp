@@ -21,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Person List");
-        addFragment(PersonListFragment.newInstance(), false);
+        if (savedInstanceState == null) {
+            addFragment(PersonListFragment.newInstance(), false);
+        }
     }
 
 
