@@ -16,6 +16,7 @@
         android:id="@+id/et_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:hint="Age"/>
 
     <EditText
@@ -24,11 +25,26 @@
         android:layout_height="wrap_content"
         android:hint="Profession"/>
 
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Add"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add"/>
+
+        <ProgressBar
+            android:id="@+id/pb_add_person"
+            android:visibility="invisible"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"/>
+
+    </FrameLayout>
+
+
 
 </LinearLayout>

@@ -12,6 +12,17 @@ public class Person {
     private int gender;
     private String profession;
 
+    public Person() {
+    }
+
+    public Person(String name, int age, int gender, String profession) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.profession = profession;
+    }
+
+
     public long getId() {
         return id;
     }
