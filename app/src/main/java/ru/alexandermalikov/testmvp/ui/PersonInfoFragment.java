@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.alexandermalikov.testmvp.R;
+import ru.alexandermalikov.testmvp.ui.presenters.PersonInfoPresenter;
 import ru.alexandermalikov.testmvp.ui.views.PersonInfoView;
 import ru.alexandermalikov.testmvp.web.data.Person;
 
@@ -23,12 +24,21 @@ public class PersonInfoFragment extends Fragment implements PersonInfoView {
     private Button mBtnDelete;
     private ProgressBar mPbDelete;
 
+    private PersonInfoPresenter mPresenter;
+
+    private static final String KEY_PERSON = "key_person";
+    private Person mPerson;
+
     public PersonInfoFragment() {
         // Required empty public constructor
     }
 
     public static PersonInfoFragment newInstance(Person person) {
-        return new PersonInfoFragment();
+        PersonInfoFragment fragment = new PersonInfoFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(KEY_PERSON, person);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -36,6 +46,8 @@ public class PersonInfoFragment extends Fragment implements PersonInfoView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        mPerson = getArguments().getParcelable(KEY_PERSON);
+        mPresenter = new PersonInfoPresenter(getActivity(), this);
     }
 
     @Override
@@ -50,12 +62,25 @@ public class PersonInfoFragment extends Fragment implements PersonInfoView {
         mBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call delete in Presenter
+                mPresenter.deletePerson(mPerson);
             }
         });
+        showPersonInfo();
         return rootView;
     }
 
+    private void showPersonInfo() {
+        mTvName.setText(mPerson.getName());
+        mTvAge.setText(mPerson.getAge() + "");
+        mTvGender.setText(mPerson.getGender() == 0 ? "Male" : "Female");
+        mTvProfession.setText(mPerson.getProfession());
+    }
+
+    @Override
+    public void onDestroy() {
+        mPresenter.onDestroy();
+        super.onDestroy();
+    }
 
     @Override
     public void showProgress(boolean show) {
@@ -66,5 +91,10 @@ public class PersonInfoFragment extends Fragment implements PersonInfoView {
     @Override
     public void showMessage(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void finish() {
+        getActivity().onBackPressed();
     }
 }

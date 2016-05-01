@@ -7,4 +7,6 @@ public interface PersonInfoView {
 
     void showMessage(String message);
 
+    void finish();
+
 }

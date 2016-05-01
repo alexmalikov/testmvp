@@ -51,8 +51,8 @@ public class ApiClient {
     }
 
     @RxLogObservable
-    public Observable<StandardResponse> deletePerson(Person person) {
-        return mApi.deletePerson(person).subscribeOn(Schedulers.newThread())
+    public Observable<StandardResponse> deletePerson(long userId) {
+        return mApi.deletePerson("1").subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

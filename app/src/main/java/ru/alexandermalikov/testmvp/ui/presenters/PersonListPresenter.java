@@ -15,12 +15,6 @@ import ru.alexandermalikov.testmvp.web.data.Person;
 import rx.Subscriber;
 
 
-// TODO:
-// 1. RxLifecycle / CompositeSubscription
-// 2. Extract same logic to BaseFragment
-// 3. Add gender selection
-// 4. Inject Presenters with dagger??
-
 public class PersonListPresenter {
 
     private static final String TAG = "TAGG : " + PersonListPresenter.class.getSimpleName();

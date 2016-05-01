@@ -7,6 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import ru.alexandermalikov.testmvp.web.data.Person;
 import ru.alexandermalikov.testmvp.web.data.StandardResponse;
 import rx.Observable;
@@ -19,7 +20,7 @@ public interface IApi {
     @POST("person")
     Observable<StandardResponse> addPerson(@Body Person person);
 
-    @DELETE("person")
-    Observable<StandardResponse> deletePerson(@Body Person person);
+    @DELETE("person/{user_id}")
+    Observable<StandardResponse> deletePerson(@Path("user_id") String userId);
 
 }
